@@ -1,3 +1,4 @@
+from django.conf.urls import include
 from django.contrib import admin
 from django.urls import  path
 from webapp import views
@@ -13,4 +14,5 @@ urlpatterns=[
     path('servicios/',views.Servicio,name='servicio'),
     path('Pre-Autorizacion-Cheques',views.PreCheques,name='precheques'),
     path('Prestamo/',views.Prestamo,name='Prestamo'),
+    path('Admin/',include('Admin.urls')),
 ]

@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'webapp',
+    'webapp','Admin',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +81,16 @@ WSGI_APPLICATION = 'BancaElectronica.wsgi.application'
     #    'NAME': BASE_DIR / 'db.sqlite3',
     #}
 #}
-
+DATABASES = {
+    'default': {
+        'ENGINE':  'django.db.backends.mysql',
+        'NAME': 'BancaElectronica',
+        'USER': 'Admin',
+        'PASSWORD': 'Option65.la',
+        'HOST': 'localhost',
+        'PORT': '7575'
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

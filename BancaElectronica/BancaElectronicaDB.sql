@@ -1,4 +1,4 @@
-create database BancaElectronica;
+create database BancaElectronicaContraseña;
 use BancaElectronica;
 create table TIPO_EMPRESA(
 IdEmpresa int primary key not null auto_increment,
@@ -150,3 +150,6 @@ primary key (ChequeNumero,Transaccion),
 foreign key (ChequeNumero) references CHEQUE(NoCheque),
 foreign key (Transaccion) references TRANSACCION(IdTransaccion)
 );
+
+#editar el nombre de la columna contraseña por pasword
+ALTER TABLE USUARIO RENAME COLUMN Contraseña to Pasword;
