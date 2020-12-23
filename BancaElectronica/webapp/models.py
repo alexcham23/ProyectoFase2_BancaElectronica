@@ -18,7 +18,7 @@ class Autorizacion(models.Model):
 
 
 class Cheque(models.Model):
-    nocheque = models.AutoField(db_column='NoCheque', primary_key=True)  # Field name made lowercase.
+    nocheque = models.BigAutoField(db_column='NoCheque', primary_key=True)  # Field name made lowercase.
     montocheque = models.DecimalField(db_column='MontoCheque', max_digits=4, decimal_places=2)  # Field name made lowercase.
     nombrereceptor = models.CharField(db_column='NombreReceptor', max_length=100)  # Field name made lowercase.
     autorizacion = models.ForeignKey(Autorizacion, models.DO_NOTHING, db_column='Autorizacion', blank=True, null=True)  # Field name made lowercase.
@@ -40,12 +40,14 @@ class Chequera(models.Model):
 
 
 class Cuenta(models.Model):
-    nocuenta = models.AutoField(db_column='NoCuenta', primary_key=True)  # Field name made lowercase.
-    tipocuenta = models.CharField(db_column='TipoCuenta', max_length=10)  # Field name made lowercase.
+    nocuenta = models.BigAutoField(db_column='NoCuenta', primary_key=True)  # Field name made lowercase.
+    tipocuenta = models.CharField(db_column='TipoCuenta', max_length=50)  # Field name made lowercase.
     tipomoneda = models.CharField(db_column='TipoMoneda', max_length=50)  # Field name made lowercase.
     monto = models.DecimalField(db_column='Monto', max_digits=10, decimal_places=2)  # Field name made lowercase.
     fechaapertura = models.DateField(db_column='FechaApertura')  # Field name made lowercase.
     estado = models.CharField(db_column='Estado', max_length=11)  # Field name made lowercase.
+    manejocuenta = models.DecimalField(db_column='ManejoCuenta', max_digits=10, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
+    interes = models.DecimalField(db_column='Interes', max_digits=4, decimal_places=4, blank=True, null=True)  # Field name made lowercase.
     clienteempresa = models.ForeignKey('Empresa', models.DO_NOTHING, db_column='ClienteEmpresa', blank=True, null=True)  # Field name made lowercase.
     clientepersona = models.ForeignKey('Persona', models.DO_NOTHING, db_column='ClientePersona', blank=True, null=True)  # Field name made lowercase.
     usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='Usuario', blank=True, null=True)  # Field name made lowercase.
@@ -57,6 +59,7 @@ class Cuenta(models.Model):
 
 class Empresa(models.Model):
     nitempresa = models.DecimalField(db_column='NitEmpresa', primary_key=True, max_digits=8, decimal_places=0)  # Field name made lowercase.
+    tipoempresa = models.CharField(db_column='TipoEmpresa', max_length=50)  # Field name made lowercase.
     nombreempresa = models.CharField(db_column='NombreEmpresa', max_length=50)  # Field name made lowercase.
     nombrecomercial = models.CharField(db_column='NombreComercial', max_length=50)  # Field name made lowercase.
     rlegal = models.CharField(db_column='RLegal', max_length=75)  # Field name made lowercase.
@@ -64,7 +67,7 @@ class Empresa(models.Model):
     telefonoempresa = models.DecimalField(db_column='TelefonoEmpresa', max_digits=8, decimal_places=0)  # Field name made lowercase.
     telefonorlegal = models.DecimalField(db_column='TelefonoRLegal', max_digits=8, decimal_places=0)  # Field name made lowercase.
     email = models.CharField(db_column='Email', max_length=50)  # Field name made lowercase.
-    tipoempresa = models.ForeignKey('TipoEmpresa', models.DO_NOTHING, db_column='TipoEmpresa')  # Field name made lowercase.
+    usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='Usuario', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -94,6 +97,7 @@ class Persona(models.Model):
     telefono2 = models.DecimalField(db_column='Telefono2', max_digits=8, decimal_places=0, blank=True, null=True)  # Field name made lowercase.
     dirrecion = models.CharField(db_column='Dirrecion', max_length=250)  # Field name made lowercase.
     email = models.CharField(db_column='Email', max_length=50)  # Field name made lowercase.
+    usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='Usuario', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -108,7 +112,7 @@ class Prestamo(models.Model):
     apellido = models.CharField(db_column='Apellido', max_length=50)  # Field name made lowercase.
     tiempopagar = models.CharField(db_column='TiempoPagar', max_length=50)  # Field name made lowercase.
     montoprestamo = models.DecimalField(db_column='MontoPrestamo', max_digits=6, decimal_places=2, blank=True, null=True)  # Field name made lowercase.
-    cuentasolicitante = models.ForeignKey(Cuenta, models.DO_NOTHING, db_column='CuentaSolicitante')  # Field name made lowercase.
+    cuentasolicitante = models.ForeignKey(Cuenta, models.DO_NOTHING, db_column='CuentaSolicitante', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -139,23 +143,14 @@ class Terceros(models.Model):
         db_table = 'terceros'
 
 
-class TipoEmpresa(models.Model):
-    idempresa = models.AutoField(db_column='IdEmpresa', primary_key=True)  # Field name made lowercase.
-    nombre = models.CharField(db_column='Nombre', max_length=50, blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'tipo_empresa'
-
-
 class Transaccion(models.Model):
     idtransaccion = models.AutoField(db_column='IdTransaccion', primary_key=True)  # Field name made lowercase.
     tipo = models.CharField(db_column='Tipo', max_length=50)  # Field name made lowercase.
-    montodepositado = models.DecimalField(db_column='MontoDepositado', max_digits=10, decimal_places=0)  # Field name made lowercase.
-    montodebitado = models.DecimalField(db_column='MontoDebitado', max_digits=10, decimal_places=2)  # Field name made lowercase.
+    monto = models.DecimalField(db_column='Monto', max_digits=10, decimal_places=2)  # Field name made lowercase.
+    montoactual = models.DecimalField(db_column='MontoActual', max_digits=10, decimal_places=2)  # Field name made lowercase.
     fecha = models.DateField()
     hora = models.TimeField()
-    nocuenta = models.ForeignKey(Cuenta, models.DO_NOTHING, db_column='NoCuenta')  # Field name made lowercase.
+    cuenta = models.ForeignKey(Cuenta, models.DO_NOTHING, db_column='Cuenta', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -190,16 +185,6 @@ class Transprestamo(models.Model):
         managed = False
         db_table = 'transprestamo'
         unique_together = (('transaccion', 'prestamo'),)
-
-
-class Transtercero(models.Model):
-    tercero = models.ForeignKey(Terceros, models.DO_NOTHING, db_column='Tercero')  # Field name made lowercase.
-    transaccion = models.OneToOneField(Transaccion, models.DO_NOTHING, db_column='Transaccion', primary_key=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'transtercero'
-        unique_together = (('transaccion', 'tercero'),)
 
 
 class Trnspago(models.Model):

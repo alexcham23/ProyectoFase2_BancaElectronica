@@ -1,8 +1,16 @@
-create database BancaElectronicaContraseña;
+create database BancaElectronica;
 use BancaElectronica;
-create table TIPO_EMPRESA(
-IdEmpresa int primary key not null auto_increment,
-Nombre varchar(50)
+#create table TIPO_EMPRESA(
+#IdEmpresa int primary key not null auto_increment,
+#Nombre varchar(50)
+#);
+#Creando tabla Usuario para el Login
+create table USUARIO(
+IdUsuario int primary key not null auto_increment,
+Usuario varchar(50) not null,
+Contraseña varchar(50) not null,
+TipoUsuario varchar(14) not null,
+IngresosFallidos int not null
 );
 #creamos la tabla Empresa
 #Rlegal = Representante Legal
@@ -15,8 +23,10 @@ Dirreccion varchar(250) not null,
 TelefonoEmpresa numeric(8,0) not null,
 TelefonoRLegal numeric(8,0) not null,
 Email Varchar(50) not null,
-TipoEmpresa int not null,
-foreign key(TipoEmpresa) references TIPO_EMPRESA(IdEmpresa)
+Usuario int,
+foreign key (Usuario) references USUARIO(IdUsuario)
+#TipoEmpresa int not null,
+#foreign key(TipoEmpresa) references TIPO_EMPRESA(IdEmpresa)
 );
 #drop database BancaElectronica; #eliminar Base de dato
 #creando tabla Persona
@@ -29,26 +39,23 @@ FechaNacimiento date not null,
 Telefono1 numeric(8,0) not null,
 Telefono2 numeric(8,0) null,
 Dirrecion varchar(250) not null,
-Email varchar(50) not null
+Email varchar(50) not null,
+Usuario int,
+foreign key (Usuario) references USUARIO(IdUsuario)
 );
-#Creando tabla Usuario para el Login
-create table USUARIO(
-IdUsuario int primary key not null auto_increment,
-Usuario varchar(50) not null,
-Contraseña varchar(50) not null,
-TipoUsuario varchar(14) not null,
-IngresosFallidos int not null
-);
+
 #drop table CUENTA;
 #Drop table TRANSACCION;
 #Creando la tabla cuenta
 create table CUENTA(
-NoCuenta int(10) primary key not null auto_increment,
-TipoCuenta varchar(10) not null,
+NoCuenta bigint(10) unsigned zerofill primary key not null auto_increment,
+TipoCuenta varchar(50) not null,
 TipoMoneda varchar(50) not null ,
 Monto numeric(10,2) not null,
 FechaApertura date not null,
 Estado varchar(11) not null,
+ManejoCuenta numeric(10,0),
+Interes numeric(4,4),
 ClienteEmpresa numeric(8,0) null,
 ClientePersona numeric(8,0) null,
 #Cliente numeric(8,0) not null,
@@ -61,12 +68,12 @@ foreign key (Usuario) references USUARIO(IdUsuario)
 create table TRANSACCION(
 IdTransaccion  int primary key not null auto_increment,
 Tipo varchar(50) not null,
-MontoDepositado numeric(10.2) not null,
-MontoDebitado numeric(10,2) not null,
+Monto numeric(10,2) not null,
+MontoActual numeric(10,2) not null,
 fecha date not null,
 hora time not null,
-NoCuenta int(10) not null,
-foreign key (NoCuenta) references CUENTA(NoCuenta)
+Cuenta bigint(10) unsigned zerofill,
+foreign key (Cuenta) references CUENTA(NoCuenta)
 );
 # creando la tabla Servicio
 create table SERVICIO(
@@ -90,7 +97,7 @@ Nombre varchar(50) not null,
 Apellido varchar(50) not null,
 TiempoPagar varchar(50) not null,
 MontoPrestamo numeric(6,2),
-CuentaSolicitante int(10) not null,
+CuentaSolicitante bigint(10) unsigned zerofill,
 foreign key (cuentaSolicitante) references CUENTA(NoCuenta)
 );
 create table TRANSPRESTAMO(
@@ -126,7 +133,7 @@ foreign key (Transaccion) references TRANSACCION(IdTransaccion)
 create table CHEQUERA(
 NoChequera int primary key not null auto_increment,
 CantidadCheque int not null,
-CuentaAsociada int(8) null,
+CuentaAsociada bigint(8) unsigned zerofill,
 foreign key (CuentaAsociada) references CUENTA(NoCuenta)
 );
 create table AUTORIZACION(
@@ -134,7 +141,7 @@ IdAutorizacion int primary key not null auto_increment,
 EstadoAutorizacion varchar(50) not null
 );
 create table CHEQUE(
-NoCheque int(8) primary key not null auto_increment,
+NoCheque bigint(8) unsigned zerofill primary key not null auto_increment,
 MontoCheque numeric(4,2) not null,
 NombreReceptor varchar(100) not null,
 Autorizacion int,
@@ -144,7 +151,7 @@ foreign key (Autorizacion) references AUTORIZACION(IdAutorizacion)
 );
 
 create table TRANSCHEQUE(
-ChequeNumero int(8),
+ChequeNumero bigint(8) unsigned zerofill,
 Transaccion int,
 primary key (ChequeNumero,Transaccion),
 foreign key (ChequeNumero) references CHEQUE(NoCheque),

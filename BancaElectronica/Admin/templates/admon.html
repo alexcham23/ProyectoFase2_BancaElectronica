@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/styleAdmin.css' %}">
-    <title>Document</title>
+    <title>Banca Administrativa</title>
 </head>
 <body>
     <main>
@@ -19,8 +19,8 @@
                 <ul>
                     <li>Creacion de Cliente
                         <ul>
-                            <li><a href="#">Cliente Individual</a></li>
-                            <li><a href="#">Cliente Empresarial</a></li>
+                            <li><a href="{% url 'Persona' %}">Cliente Individual</a></li>
+                            <li><a href="{% url 'Company' %}">Cliente Empresarial</a></li>
                         </ul>
                     </li>
                     <li><a href="#">Creacion Cuenta</a></li>

@@ -14,5 +14,5 @@ urlpatterns=[
     path('servicios/',views.Servicio,name='servicio'),
     path('Pre-Autorizacion-Cheques',views.PreCheques,name='precheques'),
     path('Prestamo/',views.Prestamo,name='Prestamo'),
-    path('Admin/',include('Admin.urls')),
+    #path('Admin/',include('Admin.urls')),
 ]

@@ -4,4 +4,6 @@ from Admin import views
 
 urlpatterns=[
     path('',views.admon, name='ahora'),
-    ]
+    path('Create-Client-People/', views.persona ,name='Persona'),
+    path('Create-Client-Company',views.empresa,name='Company')
+]
