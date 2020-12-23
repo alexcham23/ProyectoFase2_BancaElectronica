@@ -23,7 +23,13 @@
                             <li><a href="{% url 'Company' %}">Cliente Empresarial</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">Creacion Cuenta</a></li>
+                    <li>Creacion Cuenta
+                        <ul>
+                            <li><a href="{% url 'Cmonetaria' %}">Cuenta Monetaria</a></li>
+                            <li><a href="{% url 'Cahorro' %}">Cuenta Ahorro</a></li>
+                            <li><a href="{% url 'Cplazo' %}">Cuenta Plazo Fijo</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#">Cobro Cheques</a></li>
                     <li><a href="#">Creacion de Chequeras</a></li>
                     <li><a href="#">Depositos</a></li>

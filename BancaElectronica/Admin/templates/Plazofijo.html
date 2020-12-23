@@ -7,10 +7,10 @@
        {% endfor %}
 </ul>
 {% endif %}
-<H1>Registro de Cliente Individual</H1>
+<H1>Apertura de Cuenta A Plazo Fijo</H1>
     <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
-        <button type="submit" >Registrar Cliente</button>
+        <button type="submit" >Registrar Cuenta</button>
     </form>
 {% endblock %}
