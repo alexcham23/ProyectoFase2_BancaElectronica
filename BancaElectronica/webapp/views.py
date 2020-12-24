@@ -1,6 +1,6 @@
 import MySQLdb
 from django import forms
-from webapp.forms import Login
+#from webapp.forms import Login
 from django.shortcuts import render
 db = MySQLdb.connect(host='localhost', user= 'Admin', password='Option65.la', db='BancaElectronica',port=7575, connect_timeout=30)
 # Create your views here.
