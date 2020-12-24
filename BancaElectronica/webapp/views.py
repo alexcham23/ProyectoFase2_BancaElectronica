@@ -35,17 +35,4 @@ def Prestamo(request):
     return render(request,'Prestamo.html')
     
 def login(request):
-    global db
-    form=Login()
-    var={
-        "form":form,
-    }
-    if request.method=="POST":
-        form=Login(data=request.POST)
-        if form.is_valid():
-            c=db.cursor()
-            c.execute('SELECT * FROM usuario WHERE Usuario=%s and Pasword=%d',(form.get("Usuario"),form.get("Contraseña")))
-            datos=c.fetchone()
-            print(datos)
-
-    return render(request,'index.html',var)
+    return render(request,'index.html')
