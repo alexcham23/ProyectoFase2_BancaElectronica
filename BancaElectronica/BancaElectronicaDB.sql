@@ -16,6 +16,7 @@ IngresosFallidos int not null
 #Rlegal = Representante Legal
 create table EMPRESA(
 NitEmpresa numeric(8,0) primary key not null,
+TipoEmpresa varchar(50) not null,
 NombreEmpresa varchar(50) not null,
 NombreComercial varchar(50) not null,
 RLegal varchar(75) not null,
@@ -27,7 +28,7 @@ Usuario int,
 foreign key (Usuario) references USUARIO(IdUsuario)
 #TipoEmpresa int not null,
 #foreign key(TipoEmpresa) references TIPO_EMPRESA(IdEmpresa)
-);
+)ENGINE=InnoDB;
 #drop database BancaElectronica; #eliminar Base de dato
 #creando tabla Persona
 create table PERSONA(
@@ -42,8 +43,8 @@ Dirrecion varchar(250) not null,
 Email varchar(50) not null,
 Usuario int,
 foreign key (Usuario) references USUARIO(IdUsuario)
-);
-
+)ENGINE=InnoDB;
+#constraint persona foreign key (Usuario) references USUARIO(IdUsuario)
 #drop table CUENTA;
 #Drop table TRANSACCION;
 #Creando la tabla cuenta
@@ -160,3 +161,5 @@ foreign key (Transaccion) references TRANSACCION(IdTransaccion)
 
 #editar el nombre de la columna contraseña por pasword
 ALTER TABLE USUARIO RENAME COLUMN Contraseña to Pasword;
+	
+ALTER TABLE cuenta ADD PlazoPagar int AFTER Monto;
